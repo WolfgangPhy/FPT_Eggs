@@ -31,9 +31,24 @@ def PlotThicknessDistribution(data):
     ax.set_ylabel('Frequency')
     plt.savefig('ShellThicknessDistribution.png', dpi=300, bbox_inches='tight')
     
+def PlotVictoryVsOvoidity(data):
+    """
+    Plots the Victories vs Ovoidity and saves the plot as a png file.
+    Args:
+        data (pandas dataframe): Dataframe containing the datas of FPT_Eggs.csv
+    """
+    sns.set_theme()
+    fig, ax = plt.subplots()
+    sns.lineplot(x='Victories', y='Ovoidity', data=data, ax=ax)
+    ax.set_xlim(0, 3)
+    ax.set_title('Victories vs Ovoidity')
+    ax.set_xlabel('Victories')
+    ax.set_ylabel('Ovoidity (Height/Width)')
+    plt.savefig('VictoriesVsOvoidity.png', dpi=300, bbox_inches='tight')
+    
 def main():
     data = pd.read_csv('FPT_Eggs.csv')
-    PlotThicknessDistribution(data)
+    PlotVictoryVsOvoidity(data)
     
 if __name__ == '__main__':
     main()
