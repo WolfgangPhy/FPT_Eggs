@@ -26,11 +26,11 @@ def SaveDataFrame(df, filename):
     
 def main():
     # Charger le fichier CSV dans un DataFrame Pandas
-    df = pd.read_csv("ton_fichier.csv")
+    df = pd.read_csv("FPT_Eggs.csv")
     # Calculer la nouvelle colonne Ovoidity
     df = ComputeOvoidity(df)
     # Enregistrer le DataFrame mis à jour dans un nouveau fichier CSV
-    SaveDataFrame(df, "ton_fichier_mis_a_jour.csv")
+    SaveDataFrame(df, "FPT_Eggs.csv")
     
 #call
 if __name__ == "__main__":
