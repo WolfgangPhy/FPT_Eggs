@@ -17,9 +17,23 @@ def PlotVicoryVsThicknes(data):
     ax.set_ylabel('Shell Thickness (mm)')
     plt.savefig('VictoriesVsShellThickness.png', dpi=300, bbox_inches='tight')
     
+def PlotThicknessDistribution(data):
+    """
+    Plots the distribution of Shell Thickness and saves the plot as a png file.
+    Args:
+        data (pandas dataframe): Dataframe containing the datas of FPT_Eggs.csv
+    """
+    sns.set_theme()
+    fig, ax = plt.subplots()
+    sns.histplot(data['ShellThickness'],binwidth=0.01 , kde=True, ax=ax)
+    ax.set_title('Shell Thickness Distribution')
+    ax.set_xlabel('Shell Thickness (mm)')
+    ax.set_ylabel('Frequency')
+    plt.savefig('ShellThicknessDistribution.png', dpi=300, bbox_inches='tight')
+    
 def main():
     data = pd.read_csv('FPT_Eggs.csv')
-    PlotVicoryVsThicknes(data)
+    PlotThicknessDistribution(data)
     
 if __name__ == '__main__':
     main()
