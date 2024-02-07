@@ -30,7 +30,6 @@ def PlotThicknessCompareDistribution(data):
     ax.set_ylabel('Value (mm)')
     plt.show()
 
-    
 def PlotThicknessDistribution(data):
     """
     Plots the distribution of Shell Thickness and saves the plot as a png file.
@@ -141,10 +140,49 @@ def PlotVictoryVsAllThickness(data):
     ax[1,2].set_ylabel('Bottom Thickness (mm)')
     plt.show()
     
+def PlotTournament(data_tournament, data_shell):
+    merged_df_winner = pd.merge(data_tournament, data_shell[['IdOeuf', 'ShellThickness']], left_on='IdWinner', right_on='IdOeuf', how='inner', suffixes=('_Winner', '_'))
+    merged_df = pd.merge(merged_df_winner, data_shell[['IdOeuf', 'ShellThickness']], left_on='IdLoser', right_on='IdOeuf', how='inner', suffixes=('_Winner', '_Loser'))
+    merged_df.drop(['IdOeuf_Winner', 'IdOeuf_Loser', 'Unnamed: 3'], axis=1, inplace=True)
+
+    fig, ax = plt.subplots(figsize=(7, 7))
+
+    markers={1 : 'o',2 : '^',3 : 's',4 : 'D'}
+    sns.scatterplot(x='ShellThickness_Loser', y='ShellThickness_Winner',hue='Manche',palette='plasma', data=merged_df, style='Manche', markers=markers, s=100, ax=ax)
+    ax.plot([merged_df['ShellThickness_Loser'].min(), merged_df['ShellThickness_Winner'].max()], 
+            [merged_df['ShellThickness_Loser'].min(), merged_df['ShellThickness_Winner'].max()], 
+            linestyle='--', color='gray', label='y = x')
+    # Ajouter des légendes et des étiquettes
+    ax.set_title('Comparaison de ShellThickness entre Gagnants et Perdants par Manche')
+    ax.set_xlabel('ShellThickness du Perdant')
+    ax.set_ylabel('ShellThickness du Gagnant')
+
+    # Afficher le plot
+    plt.savefig('TournamentShellThickness.png', dpi=300, bbox_inches='tight')
+    
+def PlotVictoryVsTopThicknessError(data):
+    fig, ax = plt.subplots(figsize=(10, 6))
+
+    # Tracer le scatter plot avec erreurs
+    scatter = ax.scatter(data['Victories'], data['Top'], label='Data Points')
+
+    # Ajouter les erreurs avec HeightWidthError comme erreurs pour l'ordonnée
+    ax.errorbar(data['Victories'], data['Top'], yerr=data['HeightWidthError'], fmt='none', ecolor='gray', capsize=3, label='Error Bars')
+
+    # Ajouter des légendes et des étiquettes
+    ax.set_title('Scatter Plot de Victories vs Top avec Erreurs')
+    ax.set_xlabel('Victories')
+    ax.set_ylabel('Top')
+    ax.legend()
+
+    # Afficher le plot
+    plt.show()
 
 def main():
     data = pd.read_csv('FPT_Eggs.csv')
-    PlotThicknessCompareDistribution(data)
+    data_shell = pd.read_csv('ShellThickness.csv')
+    dataTournament = pd.read_csv('Tournament.csv')
+    PlotVictoryVsTopThicknessError(data)
     
 if __name__ == '__main__':
     main()
