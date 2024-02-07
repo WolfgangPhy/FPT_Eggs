@@ -145,6 +145,7 @@ def PlotTournament(data_tournament, data_shell):
     merged_df = pd.merge(merged_df_winner, data_shell[['IdOeuf', 'ShellThickness']], left_on='IdLoser', right_on='IdOeuf', how='inner', suffixes=('_Winner', '_Loser'))
     merged_df.drop(['IdOeuf_Winner', 'IdOeuf_Loser', 'Unnamed: 3'], axis=1, inplace=True)
 
+    sns.set_theme()
     fig, ax = plt.subplots(figsize=(7, 7))
 
     markers={1 : 'o',2 : '^',3 : 's',4 : 'D'}
