@@ -17,6 +17,20 @@ def PlotVicoryVsThicknes(data):
     ax.set_ylabel('Shell Thickness (mm)')
     plt.savefig('VictoriesVsShellThickness.png', dpi=300, bbox_inches='tight')
     
+def PlotThicknessCompareDistribution(data):
+    melted_df = pd.melt(data, id_vars=['IdOeuf', 'Bubble', 'Victories', 'Height', 'Width', 'Ovoidity', 'ShellThickness'],
+                        value_vars=['Bottom', 'Mid', 'Top'], var_name='Location', value_name='Value')
+    
+    sns.set_theme()
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.scatterplot(x='Location', y='Value', hue='IdOeuf', palette='tab10', data=melted_df, size='Victories', sizes=(50, 200), legend=False, alpha=0.6, ax=ax)
+    sns.lineplot(x='Location', y='Value', data=melted_df, hue='IdOeuf', palette='tab10', style='IdOeuf', markers=False, dashes=False, legend=False, alpha=0.6, ax=ax)
+    ax.set_title('Thickness Distribution by Location (Point size = Victories)')
+    ax.set_xlabel('Location')
+    ax.set_ylabel('Value (mm)')
+    plt.show()
+
+    
 def PlotThicknessDistribution(data):
     """
     Plots the distribution of Shell Thickness and saves the plot as a png file.
@@ -39,12 +53,13 @@ def PlotVictoryVsOvoidity(data):
     """
     sns.set_theme()
     fig, ax = plt.subplots()
-    sns.lineplot(x='Victories', y='Ovoidity', data=data, ax=ax)
-    ax.set_xlim(0, 3)
+    sns.histplot(x='Ovoidity',stat='Victories', data=data, ax=ax)
+    #ax.set_xlim(0, 3)
     ax.set_title('Victories vs Ovoidity')
-    ax.set_xlabel('Victories')
-    ax.set_ylabel('Ovoidity (Height/Width)')
-    plt.savefig('VictoriesVsOvoidity.png', dpi=300, bbox_inches='tight')
+    ax.set_ylabel('Victories')
+    ax.set_xlabel('Ovoidity (Height/Width)')
+    plt.show()
+    #plt.savefig('VictoriesVsOvoidity.png', dpi=300, bbox_inches='tight')
   
 def PlotVictoryVsBubbleSize(data):
     """
@@ -129,7 +144,7 @@ def PlotVictoryVsAllThickness(data):
 
 def main():
     data = pd.read_csv('FPT_Eggs.csv')
-    PlotVictoryVsAllThickness(data)
+    PlotThicknessCompareDistribution(data)
     
 if __name__ == '__main__':
     main()
