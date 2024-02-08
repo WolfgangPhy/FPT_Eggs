@@ -1,3 +1,4 @@
+from matplotlib.ticker import MaxNLocator
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -12,6 +13,7 @@ def PlotVicoryVsThicknes(data):
     sns.set_theme()
     fig, ax = plt.subplots()
     sns.lineplot(x='Victories', y='ShellThickness', data=data, ax=ax)
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
     ax.set_title('Victories vs Shell Thickness')
     ax.set_xlabel('Victories')
     ax.set_ylabel('Shell Thickness (mm)')
@@ -52,13 +54,14 @@ def PlotVictoryVsOvoidity(data):
     """
     sns.set_theme()
     fig, ax = plt.subplots()
-    sns.histplot(x='Ovoidity',stat='Victories', data=data, ax=ax)
-    #ax.set_xlim(0, 3)
+    sns.lineplot(y='Ovoidity',x='Victories', data=data, ax=ax)
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+    ax.set_xlim(0, 3)
     ax.set_title('Victories vs Ovoidity')
     ax.set_ylabel('Victories')
     ax.set_xlabel('Ovoidity (Height/Width)')
-    plt.show()
-    #plt.savefig('VictoriesVsOvoidity.png', dpi=300, bbox_inches='tight')
+    #plt.show()
+    plt.savefig('VictoriesVsOvoidity.png', dpi=300, bbox_inches='tight')
   
 def PlotVictoryVsBubbleSize(data):
     """
@@ -69,6 +72,7 @@ def PlotVictoryVsBubbleSize(data):
     sns.set_theme()
     fig, ax = plt.subplots()
     sns.lineplot(x='Victories', y='Bubble', data=data, ax=ax)
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
     ax.set_title('Victories vs Bubble Size')
     ax.set_xlabel('Victories')
     ax.set_ylabel('Bubble Size (mm)')
@@ -84,6 +88,7 @@ def PlotVictoryVsTopThickness(data):
     sns.set_theme()
     fig, ax = plt.subplots()
     sns.lineplot(x='Victories', y='Top', data=data, ax=ax)
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
     ax.set_title('Victories vs Top Thickness')
     ax.set_xlabel('Victories')
     ax.set_ylabel('Top Thickness (mm)')
@@ -98,6 +103,7 @@ def PlotVictoryVsBottomThickness(data):
     sns.set_theme()
     fig, ax = plt.subplots()
     sns.lineplot(x='Victories', y='Bottom', data=data, ax=ax)
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
     ax.set_title('Victories vs Bottom Thickness')
     ax.set_xlabel('Victories')
     ax.set_ylabel('Bottom Thickness (mm)')
@@ -112,6 +118,7 @@ def PlotVictoryVsMidThickness(data):
     sns.set_theme()
     fig, ax = plt.subplots()
     sns.lineplot(x='Victories', y='Mid', data=data, ax=ax)
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True))
     ax.set_title('Victories vs Bottom Thickness')
     ax.set_xlabel('Victories')
     ax.set_ylabel('Mid Thickness (mm)')
@@ -183,7 +190,7 @@ def main():
     data = pd.read_csv('FPT_Eggs.csv')
     data_shell = pd.read_csv('ShellThickness.csv')
     dataTournament = pd.read_csv('Tournament.csv')
-    PlotVictoryVsTopThicknessError(data)
+    PlotVictoryVsTopThickness(data)
     
 if __name__ == '__main__':
     main()
